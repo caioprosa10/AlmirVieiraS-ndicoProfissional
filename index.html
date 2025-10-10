@@ -169,7 +169,7 @@
             background-size: cover;
             background-position: center;
             /* TROCAR IMAGEM */
-            background-image: url('https://images.unsplash.com/photo-158058777152-78b9dba3b914?auto=format&fit=crop&q=80&w=2070');
+            background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=2070');
         }
         .hero-section::before {
             content: '';
@@ -385,11 +385,11 @@
         .whatsapp-link img { width: 40px; height: 40px; }
 
         /* Formulário de Contato */
-        .contact-form .form-group {
+        .form-group {
             margin-bottom: 20px;
         }
-        .contact-form input,
-        .contact-form textarea {
+        .contact-form-inputs input,
+        .contact-form-inputs textarea {
             width: 100%;
             padding: 12px;
             border-radius: 5px;
@@ -399,16 +399,19 @@
             font-family: var(--font-body);
             font-size: 1rem;
         }
-        .contact-form input:focus,
-        .contact-form textarea:focus {
+        .contact-form-inputs input:focus,
+        .contact-form-inputs textarea:focus {
             outline: none;
             border-color: var(--accent-peach);
         }
-        .contact-form textarea {
+        .contact-form-inputs textarea {
             min-height: 120px;
             resize: vertical;
         }
-        .contact-form .submit-button {
+        .submit-button {
+            display: block;
+            width: 100%;
+            text-align: center;
             padding: 12px 35px;
             background-color: var(--accent-peach);
             color: #000;
@@ -420,8 +423,8 @@
             cursor: pointer;
             transition: transform 0.2s ease, background-color 0.2s ease;
         }
-        .contact-form .submit-button:hover {
-            transform: scale(1.05);
+        .submit-button:hover {
+            transform: scale(1.02);
             background-color: #f7b29d;
         }
 
@@ -650,7 +653,8 @@
                         <span>Whatsapp - 24 99215-4917</span>
                     </a>
                 </div>
-                <form id="whatsapp-form" class="contact-form animate-on-scroll">
+                
+                <div class="contact-form-inputs animate-on-scroll">
                     <div class="form-group">
                         <input type="text" id="form-name" name="name" placeholder="Seu nome" required>
                     </div>
@@ -663,8 +667,9 @@
                     <div class="form-group">
                         <textarea id="form-message" name="message" placeholder="Sua mensagem" required></textarea>
                     </div>
-                    <button type="submit" class="submit-button">Enviar Mensagem via WhatsApp</button>
-                </form>
+                    <a href="#" id="send-whatsapp-btn" class="submit-button">Enviar Mensagem via WhatsApp</a>
+                </div>
+
             </div>
         </section>
     </main>
@@ -725,10 +730,11 @@
             // --- ATUALIZAÇÃO AUTOMÁTICA DO ANO NO RODAPÉ ---
             document.getElementById('current-year').textContent = new Date().getFullYear();
 
-            // --- NOVA LÓGICA PARA O FORMULÁRIO DO WHATSAPP ---
-            const whatsappForm = document.getElementById('whatsapp-form');
-            whatsappForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Impede o envio padrão do formulário
+            // --- LÓGICA CORRIGIDA PARA O FORMULÁRIO DO WHATSAPP ---
+            const sendButton = document.getElementById('send-whatsapp-btn');
+            
+            sendButton.addEventListener('click', function(event) {
+                event.preventDefault(); // Impede a ação padrão do link
 
                 // Número de telefone para onde a mensagem será enviada (com código do país)
                 const phoneNumber = '5524992154917';
@@ -748,11 +754,10 @@
                 // Cria o link do WhatsApp
                 const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
-                // Abre o WhatsApp em uma nova aba
-                window.open(url, '_blank');
+                // Redireciona a página para o link do WhatsApp
+                window.location.href = url;
             });
         });
     </script>
 </body>
 </html>
-     
