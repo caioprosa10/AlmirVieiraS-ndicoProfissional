@@ -169,7 +169,7 @@
             background-size: cover;
             background-position: center;
             /* TROCAR IMAGEM */
-            background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&q=80&w=2070');
+            background-image: url('https://images.unsplash.com/photo-158058777152-78b9dba3b914?auto=format&fit=crop&q=80&w=2070');
         }
         .hero-section::before {
             content: '';
@@ -364,14 +364,12 @@
             gap: 60px;
             align-items: flex-start;
         }
-
         .contact-info p {
             font-size: 1.2rem;
             color: var(--text-body);
             margin-bottom: 20px;
             line-height: 1.6;
         }
-        
         .whatsapp-link {
             display: inline-flex;
             align-items: center;
@@ -467,7 +465,6 @@
             stroke: #000;
         }
 
-
         /* --- RESPONSIVIDADE --- */
         @media (max-width: 992px) {
             .section-title { font-size: 2.5rem; }
@@ -505,7 +502,6 @@
             .about-content { flex-direction: column-reverse; }
             .expertise-list { grid-template-columns: 1fr; gap: 30px; }
         }
-
     </style>
 </head>
 <body>
@@ -654,20 +650,20 @@
                         <span>Whatsapp - 24 99215-4917</span>
                     </a>
                 </div>
-                <form action="https://formspree.io/f/your_form_id" method="POST" class="contact-form animate-on-scroll">
-                    <input type="hidden" name="_next" value="URL_DA_SUA_PAGINA_DE_OBRIGADO"> <div class="form-group">
-                        <input type="text" name="name" placeholder="Seu nome" required>
+                <form id="whatsapp-form" class="contact-form animate-on-scroll">
+                    <div class="form-group">
+                        <input type="text" id="form-name" name="name" placeholder="Seu nome" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" placeholder="Seu e-mail" required>
+                        <input type="email" id="form-email" name="email" placeholder="Seu e-mail" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="condominio" placeholder="Nome do Condomínio" required>
+                        <input type="text" id="form-condominio" name="condominio" placeholder="Nome do Condomínio" required>
                     </div>
                     <div class="form-group">
-                        <textarea name="message" placeholder="Sua mensagem" required></textarea>
+                        <textarea id="form-message" name="message" placeholder="Sua mensagem" required></textarea>
                     </div>
-                    <button type="submit" class="submit-button">Enviar Mensagem</button>
+                    <button type="submit" class="submit-button">Enviar Mensagem via WhatsApp</button>
                 </form>
             </div>
         </section>
@@ -680,7 +676,6 @@
     <a href="#home" class="back-to-top">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
     </a>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -695,7 +690,6 @@
                 navMenu.classList.toggle('active');
             });
 
-            // Fecha o menu ao clicar em um link
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
@@ -711,12 +705,11 @@
                     }
                 });
             }, {
-                threshold: 0.1 // O elemento aparece quando 10% dele está visível
+                threshold: 0.1
             });
 
             const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
             elementsToAnimate.forEach(el => observer.observe(el));
-
 
             // --- LÓGICA DO BOTÃO "VOLTAR AO TOPO" ---
             const backToTopButton = document.querySelector('.back-to-top');
@@ -732,7 +725,34 @@
             // --- ATUALIZAÇÃO AUTOMÁTICA DO ANO NO RODAPÉ ---
             document.getElementById('current-year').textContent = new Date().getFullYear();
 
+            // --- NOVA LÓGICA PARA O FORMULÁRIO DO WHATSAPP ---
+            const whatsappForm = document.getElementById('whatsapp-form');
+            whatsappForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Impede o envio padrão do formulário
+
+                // Número de telefone para onde a mensagem será enviada (com código do país)
+                const phoneNumber = '5524992154917';
+
+                // Pega os valores dos campos do formulário
+                const name = document.getElementById('form-name').value;
+                const email = document.getElementById('form-email').value;
+                const condominio = document.getElementById('form-condominio').value;
+                const message = document.getElementById('form-message').value;
+
+                // Monta a mensagem que será enviada
+                const whatsappMessage = `Olá, Almir! Gostaria de um orçamento.\n\n*Nome:* ${name}\n*E-mail:* ${email}\n*Condomínio:* ${condominio}\n\n*Mensagem:*\n${message}`;
+                
+                // Codifica a mensagem para ser usada em uma URL
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+
+                // Cria o link do WhatsApp
+                const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+                // Abre o WhatsApp em uma nova aba
+                window.open(url, '_blank');
+            });
         });
     </script>
 </body>
 </html>
+     
